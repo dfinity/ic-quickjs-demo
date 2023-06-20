@@ -1,0 +1,17 @@
+[package]
+name = "quickjs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1.0"
+candid = "0.8.4"
+ic-cdk = "0.8.1"
+ic-cdk-macros = "0.6.10"
+ic0 = "0.18.10"
+quickjs-wasm-rs = {git = "https://github.com/ulan/javy.git", branch="ulan/local-changes"}
+ic-wasi-polyfill = { git = "https://github.com/wasm-forge/ic-wasi-polyfill.git", rev="30379ce42be1ebd0bf7fb1667765fc977adeb49d"}
