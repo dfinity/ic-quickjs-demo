@@ -20,7 +20,23 @@ To try this demo, you would need to install the following:
 
 ## How it works
 
-TODO: explain the main idea
+All the heavy-lifting is done by `engine/mod.rs` and `engine/engine.js`. That code implements inter-canister calls by representing them as JavaScript promises such that the application JavaScript code can use `async/await` to make calls.
+
+### How to add a new public endpoint
+
+1. Add the public endpoint to the JavaScript code in `ic.js` as an async function. If the endpoint doesn't call other canisters, then the function can be a regular function.
+2. Add the corresponding endpoint in the Rust code in `lib.rs` using the standard `ic-cdk` macros but in the manual reply mode. Invoke the JavaScript endpoint using the `engine::execute()` helper.
+   You need to pass two functions to that helper:
+
+     - one that returns JavaScript arguments by converting the incoming Candid arguments.
+     - one that converts the JavaScript result into a Candid reply.
+
+### How to make an inter-canister call
+
+See `management_canister/mod.rs` for an example on how to expose the methods of other canisters as async JavaScript functions to the JavaScript code.
+For each external method you need to implement a Rust function callable from JavaScript code that
+- converts incoming JavaScript arguments to serialized Candid bytes.
+- uses `engine::call()` to make the inter-canister call and provides a function that deserializes the Candid response into a JavaScript value.
 
 ## Disclaimer
 
